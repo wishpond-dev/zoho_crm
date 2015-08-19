@@ -51,7 +51,7 @@ data = {
           email: "roger@jones.com"
         }
 ```
-**id** is the Zoho Contact ID which is can be found as part of the JSON response when using the **retrieve_contacts** method.
+**id** is the Zoho Contact ID which is part of the JSON response returned by the **retrieve_contacts** method.
 
 ```ruby
 client.new_contact(auth_token, data)
@@ -61,7 +61,7 @@ client.new_contact(auth_token, data)
 client.update_contact(auth_token, data, id)
 ```
 
-Where only the fields to be updated need be supplied in **data**. The other fields will remain untouched.
+Only the fields being updated need to be supplied in **data**. The other fields will remain untouched.
 
 ```ruby
 client.delete_contact(auth_token, id)
@@ -108,7 +108,7 @@ data = {
           email: "roger@jones.com"
         }
 ```
-**id** is the Zoho Lead ID which is can be found as part of the JSON response when using the **retrieve_leads** method.
+**id** is the Zoho Lead ID which is part of the JSON response returned by the **retrieve_leads** method.
 
 ```ruby
 client.new_lead(auth_token, data)
@@ -118,7 +118,7 @@ client.new_lead(auth_token, data)
 client.update_lead(auth_token, data, id)
 ```
 
-Where only the fields to be updated need be supplied in **data**. The other fields will remain untouched.
+Only the fields being updated need to be supplied in **data**. The other fields will remain untouched.
 
 ```ruby
 client.delete_lead(auth_token, id)
@@ -170,7 +170,7 @@ If custom fields have been added to either the Contacts or Leads modules by a Zo
 
 Provided a Zoho user has added custom fields, these can be populated using the **new_contact** , **new_lead** , **update_contact** and **update_lead** methods.
 
-These can be added to **data** with the custom field name as a key in the hash in lower snake case. For example, if a Zoho user add custom fields **Gender** and **Football Team** then **data** would be:
+These can be added to **data** with the custom field name as a hash key in lower snake case. For example, if a Zoho user add custom fields **Gender** and **Football Team** then **data** would be:
 
 ```ruby
 data = {
@@ -179,7 +179,7 @@ data = {
         }
 ```
 
-The zoho_crm currently does not support batch updates. Contacts and Leads must be created or updated individually.
+This zoho_crm gem currently does not support batch updates. Contacts and Leads must be created or updated individually.
 
 N.B. It appears that zoho will only let 9 concurrent auth tokens be generated for each account. These auth tokens can be deleted manually in the 'My Account' section on Zoho.
 
