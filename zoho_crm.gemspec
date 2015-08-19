@@ -5,13 +5,12 @@ require 'zoho_crm/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "zoho_crm"
-  spec.version       = ZohoCrm::VERSION
+  spec.version       = ZohoCrm::Client::VERSION
   spec.authors       = ["Ciaran Lofts"]
   spec.email         = ["ciaran@wishpond.com"]
 
   spec.summary       = %q{Light wrapper for the ZohoCRM API allowing users to interact with the Contacts and Leads modules}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = ""
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
