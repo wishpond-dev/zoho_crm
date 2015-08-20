@@ -1,4 +1,4 @@
-require 'ZohoCrm/Client/version'
+require 'zoho_crm/version'
 require 'httparty'
 
 module ZohoCrm
