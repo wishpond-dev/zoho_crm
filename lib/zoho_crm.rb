@@ -39,25 +39,29 @@ module ZohoCrm
     end
 
     def new_contact(auth_token, data)
-      formatted_data = format_contacts(data)
+      xml_data = format_contacts(data)
+      formatted_data = escape_xml(xml_data)
       new_contact = NEW_CONTACT + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
       HTTParty.post(new_contact)
     end
 
     def new_lead(auth_token, data)
-      formatted_data = format_leads(data)
+      xml_data = format_leads(data)
+      formatted_data = escape_xml(xml_data)
       new_lead = NEW_LEAD + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
       HTTParty.post(new_lead)
     end
 
     def update_contact(auth_token, data, id)
-      formatted_data = format_contacts(data)
+      xml_data = format_contacts(data)
+      formatted_data = escape_xml(xml_data)
       update_contact = UPDATE_CONTACT + "authtoken=#{auth_token}&scope=crmapi&newFormat=1&id=#{id}&xmlData=#{formatted_data}"
       HTTParty.put(update_contact)
     end
 
     def update_lead(auth_token, data, id)
-      formatted_data = format_leads(data)
+      xml_data = format_leads(data)
+      formatted_data = escape_xml(xml_data)
       update_lead = UPDATE_LEAD + "authtoken=#{auth_token}&scope=crmapi&newFormat=1&id=#{id}&xmlData=#{formatted_data}"
       HTTParty.put(update_lead)
     end
@@ -98,6 +102,10 @@ module ZohoCrm
 
     def zohoify_key(key)
       key.to_s.gsub("_", " ").split.map(&:capitalize).join(' ')
+    end
+
+    def escape_xml(data)
+      URI.escape(data)
     end
 
   end
