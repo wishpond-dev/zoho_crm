@@ -37,7 +37,13 @@ Now that we have a client and an authentication token, we can interact with the 
 The methods for the Contacts module are as follows:
 
 ```ruby
-client.retrieve_contacts(auth_token)
+client.retrieve_contacts(auth_token, from_index, to_index)
+```
+
+The maximum number of records returned in one request is 200. For example, to retrieve the fist 200 contacts the method would be:
+
+```ruby
+client.retrieve_contacts("my_zoho_api_token", 1, 200)
 ```
 
 Which returns a response in JSON format.
@@ -94,7 +100,13 @@ Limitations of these fields can be found at https://www.zoho.com/crm/help/api/mo
 The methods for the Leads module are as follows:
 
 ```ruby
-client.retrieve_leads(auth_token)
+client.retrieve_leads(auth_token, from_index, to_index)
+```
+
+The maximum number of records returned in one request is 200. For example, to retrieve the fist 200 leads the method would be:
+
+```ruby
+client.retrieve_leads("my_zoho_api_token", 1, 200)
 ```
 
 Which returns a response in JSON format.
@@ -181,7 +193,7 @@ data = {
 
 This zoho_crm gem currently does not support batch updates. Contacts and Leads must be created or updated individually.
 
-N.B. It appears that zoho will only let 9 concurrent auth tokens be generated for each account. These auth tokens can be deleted manually in the 'My Account' section on Zoho.
+N.B. It appears that zoho will only let 10 concurrent auth tokens be generated for each account. These auth tokens can be deleted manually in the 'My Account' section on Zoho.
 
 ## Development
 
@@ -191,7 +203,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/zoho_crm/fork )
+1. Fork it ( https://github.com/cjlofts/zoho_crm/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

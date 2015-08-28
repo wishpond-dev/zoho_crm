@@ -28,13 +28,13 @@ module ZohoCrm
       auth_info["AUTHTOKEN"]
     end
 
-    def retrieve_contacts(auth_token)
-      all_contacts = GET_CONTACTS + "authtoken=#{auth_token}&scope=crmapi"
+    def retrieve_contacts(auth_token, from_index, to_index)
+      all_contacts = GET_CONTACTS + "authtoken=#{auth_token}&scope=crmapi&fromIndex=#{from_index}&toIndex=#{to_index}"
       HTTParty.get(all_contacts)
     end
 
-    def retrieve_leads(auth_token)
-      all_leads = GET_LEADS + "authtoken=#{auth_token}&scope=crmapi"
+    def retrieve_leads(auth_token, from_index, to_index)
+      all_leads = GET_LEADS + "authtoken=#{auth_token}&scope=crmapi&fromIndex=#{from_index}&toIndex=#{to_index}"
       HTTParty.get(all_leads)
     end
 
