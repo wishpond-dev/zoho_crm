@@ -16,6 +16,8 @@ module ZohoCrm
     GET_FIELDS = "https://crm.zoho.com/crm/private/json/"
     NEW_CONTACTS = "https://crm.zoho.com/crm/private/xml/Contacts/insertRecords?"
     NEW_LEADS = "https://crm.zoho.com/crm/private/xml/Leads/insertRecords?"
+    UPDATE_CONTACTS = "https://crm.zoho.com/crm/private/xml/Contacts/updateRecords?"
+    UPDATE_LEADS = "https://crm.zoho.com/crm/private/xml/Leads/updateRecords?"
 
     def initialize(username, password)
       @username = username
@@ -96,6 +98,20 @@ module ZohoCrm
       formatted_data = escape_xml(xml_data)
       new_leads = NEW_LEADS + "newFormat=1&authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
       HTTParty.post(new_leads)
+    end
+
+    def update_multiple_contacts(auth_token, data, number_of_records)
+      xml_data = format_multiple_contacts(data, number_of_records)
+      formatted_data = escape_xml(xml_data)
+      update_contacts = UPDATE_CONTACTS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
+      HTTParty.post(update_contacts)
+    end
+
+    def update_multiple_leads(auth_token, data, number_of_records)
+      xml_data = format_multiple_leads(data, number_of_records)
+      formatted_data = escape_xml(xml_data)
+      update_leads = UPDATE_LEADS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
+      HTTParty.post(update_leads)
     end
 
     private
