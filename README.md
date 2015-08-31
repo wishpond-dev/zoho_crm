@@ -63,6 +63,23 @@ data = {
 client.new_contact(auth_token, data)
 ```
 
+Up to 200 new Contacts can be added in batches using the **multiple_new_contacts** method.
+
+```ruby
+client.multiple_new_contacts(auth_token, data, number_of_records)
+```
+
+Where **data** is an array of hashes
+
+```ruby
+data = [
+          {email: "matt@craigs.com", first_name: "Matt", last_name: "Craigs"},
+          {email: "roger@jones.com", first_name: "Roger", last_name: "Jones"}
+        ]
+```
+
+And **number_of_records** would be **2**
+
 ```ruby
 client.update_contact(auth_token, data, id)
 ```
@@ -125,6 +142,23 @@ data = {
 ```ruby
 client.new_lead(auth_token, data)
 ```
+
+Up to 200 new Leads can be added in batches using the **multiple_new_leads** method.
+
+```ruby
+client.multiple_new_leads(auth_token, data, number_of_records)
+```
+
+Where **data** is an array of hashes
+
+```ruby
+data = [
+          {email: "matt@craigs.com", first_name: "Matt", last_name: "Craigs", company: "Welland Capital"},
+          {email: "roger@jones.com", first_name: "Roger", last_name: "Jones", company: "Welland Capital"}
+       ]
+```
+
+And **number_of_records** would be **2**
 
 ```ruby
 client.update_lead(auth_token, data, id)
