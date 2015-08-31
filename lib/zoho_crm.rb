@@ -86,29 +86,29 @@ module ZohoCrm
       HTTParty.get(fields)
     end
 
-    def multiple_new_contacts(auth_token, data, number_of_records)
-      xml_data = format_multiple_contacts(data, number_of_records)
+    def multiple_new_contacts(auth_token, data)
+      xml_data = format_multiple_contacts(data)
       formatted_data = escape_xml(xml_data)
       new_contacts = NEW_CONTACTS + "newFormat=1&authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
       HTTParty.post(new_contacts)
     end
 
-    def multiple_new_leads(auth_token, data, number_of_records)
-      xml_data = format_multiple_leads(data, number_of_records)
+    def multiple_new_leads(auth_token, data)
+      xml_data = format_multiple_leads(data)
       formatted_data = escape_xml(xml_data)
       new_leads = NEW_LEADS + "newFormat=1&authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
       HTTParty.post(new_leads)
     end
 
-    def update_multiple_contacts(auth_token, data, number_of_records)
-      xml_data = format_multiple_contacts(data, number_of_records)
+    def update_multiple_contacts(auth_token, data)
+      xml_data = format_multiple_contacts(data)
       formatted_data = escape_xml(xml_data)
       update_contacts = UPDATE_CONTACTS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
       HTTParty.post(update_contacts)
     end
 
-    def update_multiple_leads(auth_token, data, number_of_records)
-      xml_data = format_multiple_leads(data, number_of_records)
+    def update_multiple_leads(auth_token, data)
+      xml_data = format_multiple_leads(data)
       formatted_data = escape_xml(xml_data)
       update_leads = UPDATE_LEADS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
       HTTParty.post(update_leads)
@@ -132,7 +132,7 @@ module ZohoCrm
       data += "</row></Leads>"
     end
 
-    def format_multiple_contacts(info, number_of_records)
+    def format_multiple_contacts(info)
       data = "<Contacts>"
       row_num = 1
       info.each do |record|
@@ -146,7 +146,7 @@ module ZohoCrm
       data += "</Contacts>"
     end
 
-    def format_multiple_leads(info, number_of_records)
+    def format_multiple_leads(info)
       data = "<Leads>"
       row_num = 1
       info.each do |record|

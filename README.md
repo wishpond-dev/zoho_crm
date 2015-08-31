@@ -66,7 +66,7 @@ client.new_contact(auth_token, data)
 Up to 200 new Contacts can be added in batches using the **multiple_new_contacts** method.
 
 ```ruby
-client.multiple_new_contacts(auth_token, data, number_of_records)
+client.multiple_new_contacts(auth_token, data)
 ```
 
 Where **data** is an array of hashes
@@ -77,8 +77,6 @@ data = [
           {email: "roger@jones.com", first_name: "Roger", last_name: "Jones"}
        ]
 ```
-
-And **number_of_records** would be **2**
 
 ```ruby
 client.update_contact(auth_token, data, id)
@@ -91,7 +89,7 @@ Only the fields being updated need to be supplied in **data**. The other fields 
 Up to 100 Contacts can be updated in batches using the **update_multiple_contacts** method.
 
 ```ruby
-client.update_multiple_contacts(auth_token, data, number_of_records)
+client.update_multiple_contacts(auth_token, data)
 ```
 
 Where **data** is an array of hashes and the **ID** of the Contact must be given.
@@ -164,7 +162,7 @@ client.new_lead(auth_token, data)
 Up to 200 new Leads can be added in batches using the **multiple_new_leads** method.
 
 ```ruby
-client.multiple_new_leads(auth_token, data, number_of_records)
+client.multiple_new_leads(auth_token, data)
 ```
 
 Where **data** is an array of hashes
@@ -175,8 +173,6 @@ data = [
           {email: "roger@jones.com", first_name: "Roger", last_name: "Jones", company: "Welland Capital"}
        ]
 ```
-
-And **number_of_records** would be **2**
 
 ```ruby
 client.update_lead(auth_token, data, id)
@@ -189,7 +185,7 @@ Only the fields being updated need to be supplied in **data**. The other fields 
 Up to 100 Leads can be updated in batches using the **update_multiple_leads** method.
 
 ```ruby
-client.update_multiple_leads(auth_token, data, number_of_records)
+client.update_multiple_leads(auth_token, data)
 ```
 
 Where **data** is an array of hashes and the **ID** of the Lead must be given.
@@ -260,8 +256,6 @@ data = {
           football_team: "Welland FC"
         }
 ```
-
-This zoho_crm gem currently does not support batch updates. Contacts and Leads must be created or updated individually.
 
 N.B. It appears that zoho will only let 10 concurrent auth tokens be generated for each account. These auth tokens can be deleted manually in the 'My Account' section on Zoho.
 
