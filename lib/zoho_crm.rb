@@ -2,6 +2,7 @@ require 'zoho_crm/version'
 require 'httparty'
 
 module ZohoCrm
+  RateLimitExceeded = Class.new(StandardError)
   class Client
 
     AUTH_URL = "https://accounts.zoho.com/apiauthtoken/nb/create?SCOPE=ZohoCRM/crmapi&"
@@ -34,84 +35,97 @@ module ZohoCrm
 
     def retrieve_contacts(auth_token, from_index, to_index)
       all_contacts = GET_CONTACTS + "authtoken=#{auth_token}&scope=crmapi&fromIndex=#{from_index}&toIndex=#{to_index}"
-      HTTParty.get(all_contacts)
+      response = HTTParty.get(all_contacts)
+      raise_api_exception(response)
     end
 
     def retrieve_leads(auth_token, from_index, to_index)
       all_leads = GET_LEADS + "authtoken=#{auth_token}&scope=crmapi&fromIndex=#{from_index}&toIndex=#{to_index}"
-      HTTParty.get(all_leads)
+      response = HTTParty.get(all_leads)
+      raise_api_exception(response)
     end
 
     def new_contact(auth_token, data)
       xml_data = format_contacts(data)
       formatted_data = escape_xml(xml_data)
       new_contact = NEW_CONTACT + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
-      HTTParty.post(new_contact)
+      response = HTTParty.post(new_contact)
+      raise_api_exception(response)
     end
 
     def new_lead(auth_token, data)
       xml_data = format_leads(data)
       formatted_data = escape_xml(xml_data)
       new_lead = NEW_LEAD + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
-      HTTParty.post(new_lead)
+      response = HTTParty.post(new_lead)
+      raise_api_exception(response)
     end
 
     def update_contact(auth_token, data, id)
       xml_data = format_contacts(data)
       formatted_data = escape_xml(xml_data)
       update_contact = UPDATE_CONTACT + "authtoken=#{auth_token}&scope=crmapi&newFormat=1&id=#{id}&xmlData=#{formatted_data}"
-      HTTParty.put(update_contact)
+      response = HTTParty.put(update_contact)
+      raise_api_exception(response)
     end
 
     def update_lead(auth_token, data, id)
       xml_data = format_leads(data)
       formatted_data = escape_xml(xml_data)
       update_lead = UPDATE_LEAD + "authtoken=#{auth_token}&scope=crmapi&newFormat=1&id=#{id}&xmlData=#{formatted_data}"
-      HTTParty.put(update_lead)
+      response = HTTParty.put(update_lead)
+      raise_api_exception(response)
     end
 
     def delete_contact(auth_token, id)
       delete_contact = DELETE_CONTACT + "authtoken=#{auth_token}&scope=crmapi&id=#{id}"
-      HTTParty.delete(delete_contact)
+      response = HTTParty.delete(delete_contact)
+      raise_api_exception(response)
     end
 
     def delete_lead(auth_token, id)
       delete_lead = DELETE_LEAD + "authtoken=#{auth_token}&scope=crmapi&id=#{id}"
-      HTTParty.delete(delete_lead)
+      response = HTTParty.delete(delete_lead)
+      raise_api_exception(response)
     end
 
     def get_fields(auth_token, module_name)
       name = module_name.capitalize
       fields = GET_FIELDS + name + "/getFields?authtoken=#{auth_token}&scope=crmap"
-      HTTParty.get(fields)
+      response = HTTParty.get(fields)
+      raise_api_exception(response)
     end
 
     def multiple_new_contacts(auth_token, data)
       xml_data = format_multiple_contacts(data)
       formatted_data = escape_xml(xml_data)
       new_contacts = NEW_CONTACTS + "newFormat=1&authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
-      HTTParty.post(new_contacts)
+      response = HTTParty.post(new_contacts)
+      raise_api_exception(response)
     end
 
     def multiple_new_leads(auth_token, data)
       xml_data = format_multiple_leads(data)
       formatted_data = escape_xml(xml_data)
       new_leads = NEW_LEADS + "newFormat=1&authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
-      HTTParty.post(new_leads)
+      response = HTTParty.post(new_leads)
+      raise_api_exception(response)
     end
 
     def update_multiple_contacts(auth_token, data)
       xml_data = format_multiple_contacts(data)
       formatted_data = escape_xml(xml_data)
       update_contacts = UPDATE_CONTACTS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
-      HTTParty.post(update_contacts)
+      response = HTTParty.post(update_contacts)
+      raise_api_exception(response)
     end
 
     def update_multiple_leads(auth_token, data)
       xml_data = format_multiple_leads(data)
       formatted_data = escape_xml(xml_data)
       update_leads = UPDATE_LEADS + "authtoken=#{auth_token}&scope=crmapi&version=4&xmlData=#{formatted_data}"
-      HTTParty.post(update_leads)
+      response = HTTParty.post(update_leads)
+      raise_api_exception(response)
     end
 
     private
@@ -166,6 +180,10 @@ module ZohoCrm
 
     def escape_xml(data)
       URI.escape(data)
+    end
+
+    def raise_api_exception(response)
+      raise RateLimitExceeded, "You've 'literally' exceeded your API rate limit" if response["response"]["error"]["message"] == "You crossed your license limit"
     end
 
   end
