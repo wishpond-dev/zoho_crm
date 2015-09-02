@@ -183,7 +183,9 @@ module ZohoCrm
     end
 
     def raise_api_exception(response)
-      if response["response"]["error"].nil?
+      if response["response"].nil?
+        response
+      elsif response["response"]["error"].nil?
         response
       else
         raise RateLimitExceeded, "You've 'literally' exceeded your API rate limit" if response["response"]["error"]["message"] == "You crossed your license limit"
