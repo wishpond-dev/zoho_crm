@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ciaran Lofts"]
   spec.email         = ["ciaran@wishpond.com"]
 
-  spec.summary       = %q{Light wrapper for the ZohoCRM API allowing users to interact with the Contacts and Leads modules}
+  spec.summary       = %q{Light wrapper for the ZohoCRM API allowing users to interact with the Contacts and Leads modules github.com/cjlofts/zoho_crm}
   spec.homepage      = ""
   spec.license       = "MIT"
 
