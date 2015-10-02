@@ -202,7 +202,7 @@ module ZohoCrm
 
     def raise_auth_exception(token)
       if token.nil?
-        raise AuthenticationFailure.new("Good gracious! Your credentials are incorrect")
+        raise AuthenticationFailure.new("Good gracious! Incorrect credentials or too many active auth tokens")
       else
         token
       end
