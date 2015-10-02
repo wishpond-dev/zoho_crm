@@ -3,6 +3,14 @@ require 'httparty'
 
 module ZohoCrm
   RateLimitExceeded = Class.new(StandardError)
+
+  class AuthenticationFailure < StandardError
+    attr_reader :message
+    def initialize(message)
+      @message = message
+    end
+  end
+
   class Client
 
     AUTH_URL = "https://accounts.zoho.com/apiauthtoken/nb/create?SCOPE=ZohoCRM/crmapi&"
@@ -30,7 +38,7 @@ module ZohoCrm
       response = HTTParty.post(token_url)
       response_body = response.body
       auth_info = Hash[response_body.split(" ").map { |str| str.split("=") }]
-      auth_info["AUTHTOKEN"]
+      raise_auth_exception(auth_info["AUTHTOKEN"])
     end
 
     def retrieve_contacts(auth_token, from_index, to_index)
@@ -189,6 +197,14 @@ module ZohoCrm
         response
       else
         raise RateLimitExceeded, "You've 'literally' exceeded your API rate limit" if response["response"]["error"]["message"] == "You crossed your license limit"
+      end
+    end
+
+    def raise_auth_exception(token)
+      if token.nil?
+        raise AuthenticationFailure.new("Good gracious! Your credentials are incorrect")
+      else
+        token
       end
     end
 
