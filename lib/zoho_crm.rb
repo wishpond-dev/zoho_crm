@@ -54,6 +54,7 @@ module ZohoCrm
     end
 
     def new_contact(auth_token, data)
+      binding.pry
       xml_data = format_contacts(data)
       formatted_data = escape_xml(xml_data)
       new_contact = NEW_CONTACT + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
@@ -187,7 +188,7 @@ module ZohoCrm
     end
 
     def escape_xml(data)
-      URI.escape(data)
+      CGI.escape(data)
     end
 
     def raise_api_exception(response)
