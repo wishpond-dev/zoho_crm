@@ -54,7 +54,6 @@ module ZohoCrm
     end
 
     def new_contact(auth_token, data)
-      binding.pry
       xml_data = format_contacts(data)
       formatted_data = escape_xml(xml_data)
       new_contact = NEW_CONTACT + "authtoken=#{auth_token}&scope=crmapi&xmlData=#{formatted_data}"
@@ -142,7 +141,7 @@ module ZohoCrm
     def format_contacts(info)
       data = "<Contacts><row no='1'>"
       info.each do |key, value|
-        data += "<FL val='" + zohoify_key(key) + "'>" + value + "</FL>"
+        data += "<FL val='#{zohoify_key(key)}'>#{value}</FL>"
       end
       data += "</row></Contacts>"
     end
@@ -150,7 +149,7 @@ module ZohoCrm
     def format_leads(info)
       data = "<Leads><row no='1'>"
       info.each do |key, value|
-        data += "<FL val='" + zohoify_key(key) + "'>" + value + "</FL>"
+        data += "<FL val='#{zohoify_key(key)}'>#{value}</FL>"
       end
       data += "</row></Leads>"
     end
@@ -161,7 +160,7 @@ module ZohoCrm
       info.each do |record|
         data += "<row no='#{row_num}'>"
         record.each do |key, value|
-          data += "<FL val='" + zohoify_key(key) + "'>" + value + "</FL>"
+          data += "<FL val='#{zohoify_key(key)}'>#{value}</FL>"
         end
         data += "</row>"
         row_num += 1
@@ -175,7 +174,7 @@ module ZohoCrm
       info.each do |record|
         data += "<row no='#{row_num}'>"
         record.each do |key, value|
-          data += "<FL val='" + zohoify_key(key) + "'>" + value + "</FL>"
+          data += "<FL val='#{zohoify_key(key)}'>#{value}</FL>"
         end
         data += "</row>"
         row_num += 1
