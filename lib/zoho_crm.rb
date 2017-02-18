@@ -183,7 +183,7 @@ module ZohoCrm
     end
 
     def zohoify_key(key)
-      key.to_s.gsub("_", " ").split.map(&:capitalize).join(' ')
+      key.to_s.gsub("_", " ")
     end
 
     def escape_xml(data)
