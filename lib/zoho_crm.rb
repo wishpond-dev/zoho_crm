@@ -27,6 +27,8 @@ module ZohoCrm
     NEW_LEADS = "https://crm.zoho.com/crm/private/xml/Leads/insertRecords?"
     UPDATE_CONTACTS = "https://crm.zoho.com/crm/private/xml/Contacts/updateRecords?"
     UPDATE_LEADS = "https://crm.zoho.com/crm/private/xml/Leads/updateRecords?"
+    SEARCH_LEADS = "https://crm.zoho.com/crm/private/json/Leads/getSearchRecordsByPDC?"
+    SEARCH_CONTACTS = "https://crm.zoho.com/crm/private/json/Contacts/getSearchRecordsByPDC?"
 
     def initialize(username, password)
       @username = username
@@ -47,9 +49,31 @@ module ZohoCrm
       raise_api_exception(response)
     end
 
+    def search_contacts_by_field(auth_token, return_fields, search_field, search_value)
+      select_fields = return_fields.join(",")
+      select_columns = "selectColumns=Contacts(#{select_fields})"
+      search_column = "searchColumn=#{search_field}"
+      search_value = "searchValue=#{search_value}"
+      query_string = "authtoken=#{auth_token}&scope=crmapi&#{select_columns}&#{search_column}&#{search_value}"
+      url = SEARCH_CONTACTS + query_string
+      response = HTTParty.get(url)
+      raise_api_exception(response)
+    end
+
     def retrieve_leads(auth_token, from_index, to_index)
       all_leads = GET_LEADS + "authtoken=#{auth_token}&scope=crmapi&fromIndex=#{from_index}&toIndex=#{to_index}"
       response = HTTParty.get(all_leads)
+      raise_api_exception(response)
+    end
+
+    def search_leads_by_field(auth_token, return_fields, search_field, search_value)
+      select_fields = return_fields.join(",")
+      select_columns = "selectColumns=Leads(#{select_fields})"
+      search_column = "searchColumn=#{search_field}"
+      search_value = "searchValue=#{search_value}"
+      query_string = "authtoken=#{auth_token}&scope=crmapi&#{select_columns}&#{search_column}&#{search_value}"
+      url = SEARCH_LEADS + query_string
+      response = HTTParty.get(url)
       raise_api_exception(response)
     end
 
